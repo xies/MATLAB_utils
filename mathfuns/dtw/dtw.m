@@ -6,8 +6,8 @@ function [Dist,D,k,w]=dtw(t,r)
 %w is the optimal path
 %t is the vector you are testing against
 %r is the vector you are testing
-[rows,N]=size(t);
-[rows,M]=size(r);
+[~,N]=size(t);
+[~,M]=size(r);
 %for n=1:N
 %    for m=1:M
 %        d(n,m)=(t(n)-r(m))^2;

@@ -56,7 +56,7 @@ elseif bias == 1  % only choose values >= to the search value
 end
 
 % give the correct output
-if nargout==1 | nargout==0
+if nargout==1 || nargout==0
     
     if all(isinf(srcharray(:)))
         r = [];
@@ -74,6 +74,8 @@ elseif nargout>1
     if nargout==3
         V = srcharray(r,c)+srchvalue;
     end
+end
+
 end
 
 
