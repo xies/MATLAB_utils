@@ -4,3 +4,5 @@ function y = sort_pair_mean(x)
 
 x = sort(x);
 y = (x(1:end-1) + x(2:end))/2;
+
+end
