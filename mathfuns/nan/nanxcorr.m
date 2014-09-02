@@ -1,4 +1,4 @@
-function correlations = nanxcorr(A,B,wt,dim)
+function [correlations,xax] = nanxcorr(A,B,wt,dim)
 %NANXCORR Uses NANCOV to calculate the cross correlation between two
 %signals when NaN is present.
 %
@@ -41,11 +41,12 @@ switch dim
                 variances = diag(cov_mat);
                 corr = cov_mat./sqrt(variances*variances');
                 correlations(i,t+wt+1) = corr(1,2);
-                
+                xax = -wt:wt;
             end
         end
         
         
     otherwise
         error('Unsupported dimension.');
+    
 end
