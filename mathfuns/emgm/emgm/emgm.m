@@ -1,7 +1,12 @@
 function [label, model, llh] = emgm(X, init)
 % Perform EM algorithm for fitting the Gaussian mixture model.
+% INPUT:
 %   X: d x n data matrix
 %   init: k (1 x 1) or label (1 x n, 1<=label(i)<=k) or center (d x k)
+% OUTPUT:
+%   label - label of each datum
+%   model - Gaussian mixture model
+%   llh - log likelihood
 % Written by Michael Chen (sth4nth@gmail.com).
 %% initialization
 fprintf('EM for Gaussian mixture: running ... \n');

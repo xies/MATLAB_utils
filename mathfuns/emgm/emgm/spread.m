@@ -5,7 +5,8 @@ function spread(X, label)
 if nargin == 1
     label = ones(n,1);
 end
-assert(n == length(label));
+
+assert(n == length(label),'Number of data must equal number in label');
 
 color = 'brgmcyk';
 m = length(color);

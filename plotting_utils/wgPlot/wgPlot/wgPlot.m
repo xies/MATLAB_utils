@@ -114,16 +114,16 @@ if eWeighted
   legY=minY-yStep;
   
   for kk=1:neColor
-    p=find(eWt==kk);
-    nSegment=length(p);
-    if nSegment > 0
-        x=[coord(ii(p),1),coord(jj(p),1),repmat(nan,nSegment,1)]';
-        y=[coord(ii(p),2),coord(jj(p),2),repmat(nan,nSegment,1)]';
-        hE=[hE,plot(x(:),y(:),'color',edgeMap(kk,:),plotParm{:})];
-        hE=[hE,plot(x(:),y(:),'lineWidth',unique(eWt(eWt==kk))/2,'color',edgeMap(kk,:),plotParm{:})];
-        % Draw legend bar
-        line([legLim(kk),legLim(kk+1)],[legY,legY],'lineWidth',15,'color',edgeMap(kk,:));
-    end
+      
+      p=find(eWt==kk);
+      nSegment=length(p);
+      x=[coord(ii(p),1),coord(jj(p),1),nan(nSegment,1)]';
+      y=[coord(ii(p),2),coord(jj(p),2),nan(nSegment,1)]';
+      hE=[hE,plot(x(:),y(:),'color',edgeMap(kk,:),plotParm{:})];
+      hE=[hE,plot(x(:),y(:),'lineWidth',unique(eWt(eWt==kk))/2,'color',edgeMap(kk,:),plotParm{:})];
+      % Draw legend bar
+      line([legLim(kk),legLim(kk+1)],[legY,legY],'lineWidth',15,'color',edgeMap(kk,:));
+
   end  % for kk
   
   % Draw Legend Label
@@ -169,9 +169,6 @@ ax=axis;
 dxRange=(ax(2)-ax(1))/500;
 dyRange=(ax(4)-ax(3))/500;
 axis([ax(1)-dxRange,ax(2)+dxRange,ax(3)-dyRange,ax(4)+dyRange]);
-
-
-
 
 
 
