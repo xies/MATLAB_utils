@@ -26,11 +26,12 @@ dF = zeros(size(F));
 %Loop through dimensions
 for i = 1:N
     signal = F(:,i);
-    X = 1:numel(signal);
+    X = find(~isnan(signal));
     if numel(signal(~isnan(signal))) > 5
-        signal = interp1(X(~isnan(signal)),signal(~isnan(signal)),X);
+        signal = interp1(X,signal(X),1:numel(signal));
     end
-    dF(:,i) = central_diff(signal,x);
+    dF(:,i) = central_diff(signal, ...
+        mean(diff(x(i,:)) )*(1:numel(signal)) );
 end
 
 % Put the correct dimension back in place
