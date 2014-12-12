@@ -21,16 +21,21 @@ F = shiftdim(F,dim-1);
 N = numel(F)/T;
 correct_shape = size(F);
 F = reshape(F,T,N);
-dF = zeros(size(F));
+dF = nan(size(F));
 
 %Loop through dimensions
 for i = 1:N
     signal = F(:,i);
+    I = ~isnan(signal);
     X = 1:numel(signal);
-    if numel(signal(~isnan(signal))) > 5
-        signal = interp1(X(~isnan(signal)),signal(~isnan(signal)),X);
+    if numel(signal(I)) > 5
+        signal = interp1(X(I), signal(I),X);
+        if isscalar(x)
+            dF(I,i) = central_diff(signal(I),x);
+        else
+            dF(I,i) = central_diff(signal(I),x(i,I) );
+        end
     end
-    dF(:,i) = central_diff(signal,x);
 end
 
 % Put the correct dimension back in place

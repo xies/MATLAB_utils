@@ -37,7 +37,7 @@ observations = ensure_column(observations);
 [counts,bins] = hist(observations,nbins);
 prob_mass = sum(counts);
 counts = bsxfun(@rdivide,counts,prob_mass);
-bar(bins,counts,patch_opt{:});
+plot(bins,counts,patch_opt{:});
 
 % h = findobj(gca,'Type','patch');
 % if nargin > 2
