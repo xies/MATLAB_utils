@@ -31,7 +31,7 @@ while ~converged && t < maxiter
     else
         converged = llh(t)-llh(t-1) < tol*abs(llh(t));
     end
-
+    display(num2str(t));
 end
 llh = llh(2:t);
 if converged
