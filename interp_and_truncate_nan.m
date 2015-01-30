@@ -3,7 +3,7 @@ function [signal_int,start,endI] = interp_and_truncate_nan(signal)
 %trailing NaNs. Will set first NaNs to 0, but will also return the true
 %"start" index.
 %
-% SYNOPSIS: [s_interp, start] = interp_and_truncate_nan(signal);
+% SYNOPSIS: [s_interp, startI, endI] = interp_and_truncate_nan(signal);
 %
 % xies@mit.edu
 

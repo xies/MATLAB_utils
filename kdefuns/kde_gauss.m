@@ -25,7 +25,6 @@ function [kde_est,kde_bins,Nzeros,hout] = kde_gauss(embryo_stack,kde_bins,sliceI
 
 if nargin < 5, dataname = 'area'; end
 data = cat(2,embryo_stack.(dataname) );
-% data = embryo_stack;
 
 % -- Generate KDE bins --
 if isscalar(kde_bins)
