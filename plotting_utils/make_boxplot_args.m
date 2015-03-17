@@ -27,7 +27,7 @@ X = cat(1,arg_array{:});
 % make labels
 G = cell(numel(X),1);
 num_elements = cellfun(@numel,arg_array);
-num_talley = [1 cumsum(num_elements)];
+num_talley = [0 cumsum(num_elements)];
 for i = 1:numel(num_elements)
     
     if RELABEL
@@ -35,7 +35,7 @@ for i = 1:numel(num_elements)
     else
         label = num2str(i);
     end
-    [G{num_talley(i):num_talley(i+1)}] = deal( label );
+    [G{num_talley(i)+1:num_talley(i+1)}] = deal( label );
     
 end
 
