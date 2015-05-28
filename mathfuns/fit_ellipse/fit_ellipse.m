@@ -5,7 +5,7 @@ function ellipse_t = fit_ellipse( x,y,axis_handle )
 % Format:   ellipse_t = fit_ellipse( x,y,axis_handle )
 %
 % Input:    x,y         - a set of points in 2 column vectors. AT LEAST 5 points are needed !
-%           axis_handle - optional. a handle to an axis, at which the estimated ellipse 
+%           axis_handle - optional. a handle to an axis, at which the estimated ellipse
 %                         will be drawn along with it's axes
 %
 % Output:   ellipse_t - structure that defines the best fit to an ellipse
@@ -28,9 +28,9 @@ function ellipse_t = fit_ellipse( x,y,axis_handle )
 % =====================================================================================
 % We will try to fit the best ellipse to the given measurements. the mathematical
 % representation of use will be the CONIC Equation of the Ellipse which is:
-% 
+%
 %    Ellipse = a*x^2 + b*x*y + c*y^2 + d*x + e*y + f = 0
-%   
+%
 % The fit-estimation method of use is the Least Squares method (without any weights)
 % The estimator is extracted from the following equations:
 %
@@ -43,7 +43,7 @@ function ellipse_t = fit_ellipse( x,y,axis_handle )
 % We will define the cost function to be:
 %
 %   Cost(A) := (g_c(x_c,y_c;A)-f_c)'*(g_c(x_c,y_c;A)-f_c)
-%            = (X*A+f_c)'*(X*A+f_c) 
+%            = (X*A+f_c)'*(X*A+f_c)
 %            = A'*X'*X*A + 2*f_c'*X*A + N*f^2
 %
 %   where:
@@ -63,28 +63,28 @@ function ellipse_t = fit_ellipse( x,y,axis_handle )
 %       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 %
 % (We will normalize the variables by (-f) since "f" is unknown and can be accounted for later on)
-%  
+%
 % NOW, all that is left to do is to extract the parameters from the Conic Equation.
 % We will deal the vector A into the variables: (A,B,C,D,E) and assume F = -1;
 %
 %    Recall the conic representation of an ellipse:
-% 
+%
 %       A*x^2 + B*x*y + C*y^2 + D*x + E*y + F = 0
-% 
+%
 % We will check if the ellipse has a tilt (=orientation). The orientation is present
 % if the coefficient of the term "x*y" is not zero. If so, we first need to remove the
 % tilt of the ellipse.
 %
 % If the parameter "B" is not equal to zero, then we have an orientation (tilt) to the ellipse.
-% we will remove the tilt of the ellipse so as to remain with a conic representation of an 
+% we will remove the tilt of the ellipse so as to remain with a conic representation of an
 % ellipse without a tilt, for which the math is more simple:
 %
 % Non tilt conic rep.:  A`*x^2 + C`*y^2 + D`*x + E`*y + F` = 0
 %
 % We will remove the orientation using the following substitution:
-%   
+%
 %   Replace x with cx+sy and y with -sx+cy such that the conic representation is:
-%   
+%
 %   A(cx+sy)^2 + B(cx+sy)(-sx+cy) + C(-sx+cy)^2 + D(cx+sy) + E(-sx+cy) + F = 0
 %
 %   where:      c = cos(phi)    ,   s = sin(phi)
@@ -95,14 +95,14 @@ function ellipse_t = fit_ellipse( x,y,axis_handle )
 %           y^2(As^2 + Bcs + Cc^2) + x(Dc-Es) + y(Ds+Ec) + F = 0
 %
 %   The orientation is easily found by the condition of (B_new=0) which results in:
-% 
+%
 %   2A*cs +(c^2-s^2)B -2Ccs = 0  ==> phi = 1/2 * atan( b/(c-a) )
-%   
+%
 %   Now the constants   c=cos(phi)  and  s=sin(phi)  can be found, and from them
 %   all the other constants A`,C`,D`,E` can be found.
 %
 %   A` = A*c^2 - B*c*s + C*s^2                  D` = D*c-E*s
-%   B` = 2*A*c*s +(c^2-s^2)*B -2*C*c*s = 0      E` = D*s+E*c 
+%   B` = 2*A*c*s +(c^2-s^2)*B -2*C*c*s = 0      E` = D*s+E*c
 %   C` = A*s^2 + B*c*s + C*c^2
 %
 % Next, we want the representation of the non-tilted ellipse to be as:
@@ -113,14 +113,14 @@ function ellipse_t = fit_ellipse( x,y,axis_handle )
 %               a,b     are the ellipse "radiuses" (or sub-axis)
 %
 % Using a square completion method we will define:
-%       
+%
 %       F`` = -F` + (D`^2)/(4*A`) + (E`^2)/(4*C`)
 %
 %       Such that:    a`*(X-X0)^2 = A`(X^2 + X*D`/A` + (D`/(2*A`))^2 )
 %                     c`*(Y-Y0)^2 = C`(Y^2 + Y*E`/C` + (E`/(2*C`))^2 )
 %
 %       which yields the transformations:
-%       
+%
 %           X0  =   -D`/(2*A`)
 %           Y0  =   -E`/(2*C`)
 %           a   =   sqrt( abs( F``/A` ) )
@@ -188,12 +188,12 @@ end
 % check if conic equation represents an ellipse
 test = a*c;
 switch (1)
-case (test>0),  status = '';
-case (test==0), status = 'Parabola found';  warning( 'fit_ellipse: Did not locate an ellipse' );
-case (test<0),  status = 'Hyperbola found'; warning( 'fit_ellipse: Did not locate an ellipse' );
+    case (test>0),  status = '';
+    case (test==0), status = 'Parabola found';  warning( 'fit_ellipse: Did not locate an ellipse' );
+    case (test<0),  status = 'Hyperbola found'; warning( 'fit_ellipse: Did not locate an ellipse' );
 end
 
-% if we found an ellipse return it's data
+% if we found an ellipse return its data
 if (test>0)
     
     % make sure coefficients are positive as required
@@ -203,10 +203,10 @@ if (test>0)
     X0          = mean_x - d/2/a;
     Y0          = mean_y - e/2/c;
     F           = 1 + (d^2)/(4*a) + (e^2)/(4*c);
-    [a,b]       = deal( sqrt( F/a ),sqrt( F/c ) );    
+    [a,b]       = deal( sqrt( F/a ),sqrt( F/c ) );
     long_axis   = 2*max(a,b);
     short_axis  = 2*min(a,b);
-
+    
     % rotate the axes backwards to find the center point of the original TILTED ellipse
     R           = [ cos_phi sin_phi; -sin_phi cos_phi ];
     P_in        = R * [X0;Y0];
@@ -217,7 +217,7 @@ if (test>0)
     ellipse_t = struct( ...
         'a',a,...
         'b',b,...
-        'phi',orientation_rad,...
+        'phi',rad2deg(orientation_rad),...
         'X0',X0,...
         'Y0',Y0,...
         'X0_in',X0_in,...
@@ -240,8 +240,8 @@ else
         'status',status );
 end
 
-% check if we need to plot an ellipse with it's axes.
-if (nargin>2) & ~isempty( axis_handle ) & (test>0)
+% check if we need to plot an ellipse with its axes.
+if (nargin>2) && ~isempty( axis_handle ) && (test>0)
     
     % rotation matrix to rotate the axes with respect to an angle phi
     R = [ cos_phi sin_phi; -sin_phi cos_phi ];
@@ -261,8 +261,12 @@ if (nargin>2) & ~isempty( axis_handle ) & (test>0)
     % draw
     hold_state = get( axis_handle,'NextPlot' );
     set( axis_handle,'NextPlot','add' );
+%     scatter( x, y )
     plot( new_ver_line(1,:),new_ver_line(2,:),'r' );
     plot( new_horz_line(1,:),new_horz_line(2,:),'r' );
     plot( rotated_ellipse(1,:),rotated_ellipse(2,:),'r' );
+    axis equal;
     set( axis_handle,'NextPlot',hold_state );
+end
+
 end
