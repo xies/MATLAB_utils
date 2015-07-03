@@ -88,7 +88,9 @@ end  % if ~any
 [ii,jj,eWt] = find(adjMat);
 qq=unique([ii,jj]);
 minEWt=min(eWt);
-maxEWt=max(eWt);
+% maxEWt=max(eWt);
+minEWt = 0;
+maxEWt = 0.2;
 eWtRange=maxEWt-minEWt;
 eWeighted=eWtRange>0;
 
